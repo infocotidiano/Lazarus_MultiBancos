@@ -6,6 +6,7 @@ object frmExemploREDE: TfrmExemploREDE
   Caption = 'Exemplo Sistema REDE'
   ClientHeight = 599
   ClientWidth = 1084
+  LCLVersion = '4.4.0.0'
   OnClose = FormClose
   OnCreate = FormCreate
   object pnpConexao: TPanel
@@ -24,6 +25,7 @@ object frmExemploREDE: TfrmExemploREDE
     Font.Name = 'Arial'
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
+    ParentBackground = False
     ParentColor = False
     ParentFont = False
     TabOrder = 0
@@ -93,8 +95,8 @@ object frmExemploREDE: TfrmExemploREDE
       Top = 480
       Width = 142
       Caption = 'Conectar'
-      OnClick = btnConectarClick
       TabOrder = 4
+      OnClick = btnConectarClick
     end
     object btnGravaINI: TButton
       Left = 133
@@ -102,8 +104,8 @@ object frmExemploREDE: TfrmExemploREDE
       Top = 544
       Width = 91
       Caption = 'Grava INI'
-      OnClick = btnGravaINIClick
       TabOrder = 5
+      OnClick = btnGravaINIClick
     end
     object btnLerINI: TButton
       Left = 8
@@ -111,8 +113,8 @@ object frmExemploREDE: TfrmExemploREDE
       Top = 544
       Width = 91
       Caption = 'Ler INI'
-      OnClick = btnLerINIClick
       TabOrder = 6
+      OnClick = btnLerINIClick
     end
     object Panel1: TPanel
       Left = 0
@@ -123,6 +125,7 @@ object frmExemploREDE: TfrmExemploREDE
       BevelOuter = bvNone
       Caption = 'Conexão'
       Color = 8453888
+      ParentBackground = False
       ParentColor = False
       TabOrder = 7
     end
@@ -147,9 +150,10 @@ object frmExemploREDE: TfrmExemploREDE
         'MariaDB'
         'PostgreSQL'
       )
+      ParentBackground = False
+      TabOrder = 8
       OnChangeBounds = rgBANCOChangeBounds
       OnClick = rgBANCOClick
-      TabOrder = 8
     end
   end
   object pnpPrincipal: TPanel
@@ -188,6 +192,7 @@ object frmExemploREDE: TfrmExemploREDE
         BevelOuter = bvNone
         Caption = 'Exemplo: Infocotidiano'
         Color = clLime
+        ParentBackground = False
         ParentColor = False
         TabOrder = 0
       end
@@ -211,8 +216,8 @@ object frmExemploREDE: TfrmExemploREDE
         Top = 99
         Width = 163
         Caption = 'Incluir'
-        OnClick = Button1Click
         TabOrder = 3
+        OnClick = Button1Click
       end
       object Label5: TLabel
         Left = 24
@@ -349,9 +354,7 @@ object frmExemploREDE: TfrmExemploREDE
       Align = alClient
       Color = clWindow
       DrawFullLine = False
-      FocusColor = clRed
       SelectedColor = clHighlight
-      GridLineStyle = psSolid
       DataSource = DataSource1
       Font.CharSet = ANSI_CHARSET
       Font.Color = clBlack
@@ -366,29 +369,29 @@ object frmExemploREDE: TfrmExemploREDE
   end
   object ZConnection1: TZConnection
     ControlsCodePage = cCP_UTF8
-    AutoEncodeStrings = True
     Catalog = 'incofotidiano'
     Properties.Strings = (
       'AutoEncodeStrings=True'
       'controls_cp=CP_UTF8'
     )
     AfterConnect = ZConnection1AfterConnect
+    DisableSavepoints = False
     Port = 3306
     Database = 'infocotidiano'
     User = 'root'
     Password = 'Info@3004'
-    Protocol = 'postgresql'
+    Protocol = 'mariadb'
     LibraryLocation = 'C:\Projetos\SistemaRede\libmariadb.dll'
     Left = 848
     Top = 256
   end
   object ZQuery1: TZQuery
     Connection = ZConnection1
-    UpdateObject = ZUpdateSQL1
     CachedUpdates = True
     AfterEdit = ZQuery1AfterEdit
     AfterPost = ZQuery1AfterPost
     AfterDelete = ZQuery1AfterDelete
+    UpdateObject = ZUpdateSQL1
     SQL.Strings = (
       'select * from cliente'
     )
@@ -456,24 +459,16 @@ object frmExemploREDE: TfrmExemploREDE
     Top = 312
     ParamData = <    
       item
-        DataType = ftUnknown
         Name = 'codigo'
-        ParamType = ptUnknown
       end    
       item
-        DataType = ftUnknown
         Name = 'nome'
-        ParamType = ptUnknown
       end    
       item
-        DataType = ftUnknown
         Name = 'telefone'
-        ParamType = ptUnknown
       end    
       item
-        DataType = ftUnknown
         Name = 'OLD_codigo'
-        ParamType = ptUnknown
       end>
   end
 end

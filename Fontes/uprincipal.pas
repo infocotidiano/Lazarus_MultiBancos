@@ -63,7 +63,7 @@ type
 
 var
   frmExemploREDE: TfrmExemploREDE;
-  cCaminhoEXE : string;
+  cCaminhoEXE: string;
 
 implementation
 
@@ -75,7 +75,7 @@ procedure TfrmExemploREDE.btnGravaINIClick(Sender: TObject);
 var
   ArquivoINI: TIniFile;
 begin
-  ArquivoINI := TIniFile.Create(cCaminhoEXE+'Configuracao.ini');
+  ArquivoINI := TIniFile.Create(cCaminhoEXE + 'Configuracao.ini');
   ArquivoINI.WriteString('Conexao', 'servidor', edtServidor.Text);
   ArquivoINI.WriteString('Conexao', 'porta', edtPORTA.Text);
   ArquivoINI.WriteString('Conexao', 'usuario', edtUSUARIO.Text);
@@ -89,12 +89,12 @@ procedure TfrmExemploREDE.btnLerINIClick(Sender: TObject);
 var
   ArquivoINI: TIniFile;
 begin
-  ArquivoINI           := TIniFile.Create(cCaminhoEXE+'Configuracao.ini');
-  edtServidor.Text     := ArquivoINI.ReadString('Conexao', 'servidor', 'localhost');
-  edtPORTA.text        := ArquivoINI.ReadString('Conexao', 'porta', '3306');
-  edtUSUARIO.Text      := ArquivoINI.ReadString('Conexao', 'usuario', 'username');
-  edtSENHA.Text        := ArquivoINI.ReadString('Conexao', 'senha', '1234');
-  rgBANCO.ItemIndex    := ArquivoINI.ReadInteger('Conexao', 'BancoDeDados', 0);
+  ArquivoINI := TIniFile.Create(cCaminhoEXE + 'Configuracao.ini');
+  edtServidor.Text := ArquivoINI.ReadString('Conexao', 'servidor', 'localhost');
+  edtPORTA.Text := ArquivoINI.ReadString('Conexao', 'porta', '3306');
+  edtUSUARIO.Text := ArquivoINI.ReadString('Conexao', 'usuario', 'username');
+  edtSENHA.Text := ArquivoINI.ReadString('Conexao', 'senha', '1234');
+  rgBANCO.ItemIndex := ArquivoINI.ReadInteger('Conexao', 'BancoDeDados', 0);
 
   ArquivoINI.Free;
 end;
@@ -102,36 +102,35 @@ end;
 procedure TfrmExemploREDE.Button1Click(Sender: TObject);
 begin
   try
-  ZQuery1.Insert;
-  ZQuery1nome.Value:=edtNOME.Text;
-  ZQuery1telefone.Value:=edtFONE.Text;
-  ZQuery1.Post;
+    ZQuery1.Insert;
+    ZQuery1nome.Value := edtNOME.Text;
+    ZQuery1telefone.Value := edtFONE.Text;
+    ZQuery1.Post;
 
   except
     on e: Exception do
-       begin
-         ShowMessage('Erro ao incluir registro'+
-         sLineBreak+e.Message+sLineBreak+e.ClassName);
-         Application.Terminate;
-       end;
+    begin
+      ShowMessage('Erro ao incluir registro' +
+        sLineBreak + e.Message + sLineBreak + e.ClassName);
+      Application.Terminate;
+    end;
   end;
   edtNOME.Clear;
   edtFONE.Clear;
 end;
 
-procedure TfrmExemploREDE.FormClose(Sender: TObject;
-  var CloseAction: TCloseAction);
+procedure TfrmExemploREDE.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   if ZQuery1.Active then
-     ZQuery1.Close;
+    ZQuery1.Close;
   if ZConnection1.Connected then
-     ZConnection1.Disconnect;
+    ZConnection1.Disconnect;
 end;
 
 procedure TfrmExemploREDE.FormCreate(Sender: TObject);
 begin
   // c:\temp\teste\
-  cCaminhoEXE:=ExtractFilePath(Application.ExeName);
+  cCaminhoEXE := ExtractFilePath(Application.ExeName);
 end;
 
 procedure TfrmExemploREDE.rgBANCOChangeBounds(Sender: TObject);
@@ -140,16 +139,16 @@ end;
 
 procedure TfrmExemploREDE.rgBANCOClick(Sender: TObject);
 begin
-    if rgBANCO.ItemIndex = 0 then
-      begin
-       edtPORTA.Text:='3306';
-       edtUSUARIO.Text :='root';
-      end
+  if rgBANCO.ItemIndex = 0 then
+  begin
+    edtPORTA.Text := '3306';
+    edtUSUARIO.Text := 'root';
+  end
   else
-    begin
-     edtPORTA.Text:='5432';
-     edtUSUARIO.Text :='postgres';
-    end;
+  begin
+    edtPORTA.Text := '5432';
+    edtUSUARIO.Text := 'postgres';
+  end;
 end;
 
 procedure TfrmExemploREDE.ZConnection1AfterConnect(Sender: TObject);
@@ -158,13 +157,13 @@ end;
 
 procedure TfrmExemploREDE.ZQuery1AfterDelete(DataSet: TDataSet);
 begin
-    ZQuery1.ApplyUpdates;
+  ZQuery1.ApplyUpdates;
 
 end;
 
 procedure TfrmExemploREDE.ZQuery1AfterEdit(DataSet: TDataSet);
 begin
-    ZQuery1.ApplyUpdates;
+  ZQuery1.ApplyUpdates;
 
 end;
 
@@ -177,66 +176,65 @@ end;
 procedure TfrmExemploREDE.btnConectarClick(Sender: TObject);
 begin
   if ZConnection1.Connected then
-     ZConnection1.Disconnect;
+    ZConnection1.Disconnect;
 
   if not ZConnection1.Connected then
-     begin
-       try
-       ZConnection1.Database:='infocotidiano';
-       if rgBANCO.ItemIndex = 0 then
-          begin
-            ZConnection1.Protocol  := 'MariaDB-10';
-            ZConnection1.LibraryLocation:=cCaminhoEXE+'libmariadb.dll';
-            pnlTITULO.Caption:='Infocotidiano -> Base MariaDB';
-            pnlTITULO.Color:=clYellow;
-          end
-       else if rgBANCO.ItemIndex = 1 then
-          begin
-            ZConnection1.Protocol := 'postgresql';
-            ZConnection1.LibraryLocation:=cCaminhoEXE+'libpq-10.dll';
-            pnlTITULO.Caption:='Infocotidiano -> Base PostgreSQL';
-            pnlTITULO.Color:=$00FFFF80;
-          end;
+  begin
+    try
+      ZConnection1.Database := 'infocotidiano';
+      if rgBANCO.ItemIndex = 0 then
+      begin
+        ZConnection1.Protocol := 'mariadb';
+        ZConnection1.LibraryLocation := cCaminhoEXE + 'libmariadb.dll';
+        pnlTITULO.Caption := 'Infocotidiano -> Base MariaDB';
+        pnlTITULO.Color := clYellow;
+      end
+      else if rgBANCO.ItemIndex = 1 then
+      begin
+        ZConnection1.Protocol := 'postgresql';
+        ZConnection1.LibraryLocation := cCaminhoEXE + 'libpq-10.dll';
+        pnlTITULO.Caption := 'Infocotidiano -> Base PostgreSQL';
+        pnlTITULO.Color := $00FFFF80;
+      end;
 
-       ZConnection1.HostName:=edtServidor.Text;
-       ZConnection1.Port:=StrToIntDef(edtPORTA.Text,3306);
-       ZConnection1.User:=edtUSUARIO.Text;
-       ZConnection1.Password:=edtSENHA.Text;
-       except
-         on e: Exception do
-            begin
-              ShowMessage('Erro ao carregar parametros'+
-              sLineBreak+e.Message+sLineBreak+e.ClassName);
-              Application.Terminate;
-            end;
-       end;
+      ZConnection1.HostName := edtServidor.Text;
+      ZConnection1.Port := StrToIntDef(edtPORTA.Text, 3306);
+      ZConnection1.User := edtUSUARIO.Text;
+      ZConnection1.Password := edtSENHA.Text;
+    except
+      on e: Exception do
+      begin
+        ShowMessage('Erro ao carregar parametros' +
+          sLineBreak + e.Message + sLineBreak + e.ClassName);
+        Application.Terminate;
+      end;
+    end;
 
-       try
-          ZConnection1.Connect;
-       except
-         on e: Exception do
-            begin
-              ShowMessage('Erro ao conectar a base'+
-              sLineBreak+e.Message+sLineBreak+e.ClassName);
-              Application.Terminate;
-            end;
-       end;
-     end;
+    try
+      ZConnection1.Connect;
+    except
+      on e: Exception do
+      begin
+        ShowMessage('Erro ao conectar a base' +
+          sLineBreak + e.Message + sLineBreak + e.ClassName);
+        Application.Terminate;
+      end;
+    end;
+  end;
   if ZConnection1.Connected then
-     begin
-       try
-       ZQuery1.Open;
-       except
-         on e: Exception do
-            begin
-              ShowMessage('Erro ao abrir a base'+
-              sLineBreak+e.Message+sLineBreak+e.ClassName);
-              Application.Terminate;
-            end;
-       end;
-     end;
+  begin
+    try
+      ZQuery1.Open;
+    except
+      on e: Exception do
+      begin
+        ShowMessage('Erro ao abrir a base' +
+          sLineBreak + e.Message + sLineBreak + e.ClassName);
+        Application.Terminate;
+      end;
+    end;
+  end;
 
 end;
 
 end.
-
