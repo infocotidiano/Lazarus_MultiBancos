@@ -59,5 +59,5 @@ CREATE TABLE cliente (
 Daniel de Morais
 
 ### Link do vídeo demonstrativo
-https://youtu.be/AxQcr4GyfyI
+https://youtu.be/SqwgCmuKYLA?si=WlJzMmMy6xtn1Buh
 
